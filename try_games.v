@@ -714,8 +714,9 @@ endmodule
  //    LCD Side
  output    [7:0]    LCD_DATA;
  output            LCD_RW,LCD_EN,LCD_RS;
- //    Internal Wires/Registers
- reg    [5:0]    LUT_INDEX;
+ //    Internal Wires/Registers 内部电线
+//LUT == LCD 的 CGROM table
+ reg    [5:0]    LUT_INDEX; 
  reg    [8:0]    LUT_DATA;
  reg    [5:0]    mLCD_ST;
  reg    [17:0]    mDLY;
@@ -849,7 +850,7 @@ endmodule
  
  endmodule
  
- 
+ //固定用法
  module LCD_Controller (    //    Host Side
                          iDATA,iRS,
                          iStart,oDone,
@@ -934,7 +935,7 @@ endmodule
  endmodule
  
  
-
+//固定用法
  module    Reset_Delay(iCLK,oRESET);
  input        iCLK;
  output reg    oRESET;
