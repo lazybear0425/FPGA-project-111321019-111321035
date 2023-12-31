@@ -12,8 +12,8 @@ module try_games(
 	//output reg [0:1]show_who //測試用變數
 	//input            CLOCK_50,                //    50 MHz
 	inout    [7:0]    LCD_DATA,                //    LCD Data bus 8 bits
- //output            LCD_ON;                    //    LCD Power ON/OFF
- //output            LCD_BLON;                //    LCD Back Light ON/OFF
+ 	//output            LCD_ON;                    //    LCD Power ON/OFF
+	//output            LCD_BLON;                //    LCD Back Light ON/OFF
 	output            LCD_RW,                    //    LCD Read/Write Select, 0 = Write, 1 = Read6 
 	output            LCD_EN,                    //    LCD Enable
 	output            LCD_RS                    //    LCD Command/Data Select, 0 = Command, 1 = Data
