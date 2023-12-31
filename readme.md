@@ -20,8 +20,7 @@
  - ![player1_win](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/dd60d08d-9780-4443-9ee4-eabae83f2c7d)
  - player 2贏了畫面
 #### 顯示
-![顯示](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/6a29fc18-cb3d-49bb-b67a-9720e5e0c9e1)
-#### 倒數計時器
+![20231231_152805](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/687fee44-f94b-48fe-b6e1-9d1c922e0c8e)
  - 用7段顯示器顯示
  - 一開始有99秒
    - 向下遞減，直到歸零
