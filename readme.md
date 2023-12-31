@@ -17,8 +17,9 @@
 ![遊玩畫面](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/d617ba86-0447-4d7e-9235-bb5e8638839b)
  - 紅色燈為player 1，綠色燈為player 2，藍色燈為目前游標位置
  - player 1贏了畫面
- - ![player1_win](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/dd60d08d-9780-4443-9ee4-eabae83f2c7d)
+![player1_win](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/dd60d08d-9780-4443-9ee4-eabae83f2c7d)
  - player 2贏了畫面
+![player2_win](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/7f0dc170-e111-4432-8cac-fa0bd5ccffaf)
 #### 顯示
 ![20231231_152805](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/687fee44-f94b-48fe-b6e1-9d1c922e0c8e)
  - 用7段顯示器顯示
