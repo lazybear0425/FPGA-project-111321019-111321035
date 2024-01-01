@@ -182,7 +182,7 @@ module try_games(
 				begin
 					show_p1[last_x][last_y]<=0;//下棋
 				end
-				who_change=~who_change;//換人
+				who_change=~who_change;//換人 //靠這裡應該在end裡面 //明天提醒我QAQ
 			end
 			else
 			begin
