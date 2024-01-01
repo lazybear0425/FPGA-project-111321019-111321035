@@ -36,4 +36,9 @@
  - D9~D11為player 2 剩餘可犯規次數
  - D15~D16為player 2是否贏了(開啟reset後才能知道)
 ### LCD輸出
+- pl為player 1
+- p2為player 2
+- r為Red
+- g為Green
+- b為Blue
 ![LCD](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/b1bcb93c-795c-44bb-bd87-1cf3c7f47b7b)
