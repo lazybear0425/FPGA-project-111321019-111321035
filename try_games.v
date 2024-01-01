@@ -6,7 +6,7 @@ module try_games(
 	output reg [3:0]COMM_88,
 	output reg [1:0]COMM_seg,
 	output reg [6:0]seg,
-	output reg [2:0]life_p1,life_p2,
+	output reg [2:0]life_p1,life_p2,//p1 和 p2 的生命值
 	output reg [1:0]wingames_p1,wingames_p2,
 	output reg [1:0]beep, //蜂鳴器
 	//output reg [0:1]show_who //測試用變數
