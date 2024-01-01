@@ -86,27 +86,27 @@ module try_games(
 	always @(posedge CLK_play)
 		if(reset==1)
 		begin
-			life_p1=3'b111;
-			life_p2=3'b111;
+			life_p1=3'b111;//reset,重新變回三條命
+			life_p2=3'b111;//reset,重新變回三條命
 		end
 		else if(tmp_skip_life!=skip)
-		begin
+			begin
 				tmp_skip_life=skip;
-				if(~who) //player 1
+				if(~who) //player 1 //？？？？？？？？？？？？？？？？？
 				begin
-					case(life_p1)
-						3'b111: life_p1=3'b110;
-						3'b110: life_p1=3'b100;
-						3'b100: life_p1=3'b000;
+					case(life_p1)//p1 的生命（total 生命 == 3）
+						3'b111: life_p1=3'b110;//犯規一次（3->2）
+						3'b110: life_p1=3'b100;//犯規第二次（2->1)
+						3'b100: life_p1=3'b000;//犯規第三次（1->0)
 						//3'b000: tmp_win_p2=1;
 					endcase
 				end
 				else
 					begin
-					case(life_p2)
-						3'b111: life_p2=3'b110;
-						3'b110: life_p2=3'b100;
-						3'b100: life_p2=3'b000;
+					case(life_p2)//p2 的生命（total 生命 == 3）
+						3'b111: life_p2=3'b110;//犯規一次（3->2）
+						3'b110: life_p2=3'b100;//犯規第二次（2->1)
+						3'b100: life_p2=3'b000;//犯規第三次（1->0)
 						//3'b000: tmp_win_p1=1;
 					endcase
 					end
@@ -130,20 +130,22 @@ module try_games(
 		begin
 			if(pos[0]==1)
 				begin
-					if(where[0]>=7)
+					//where[0] == y 軸
+					if(where[0]>=7)//如果游標到達8*8的邊緣，并且持續往前移動時就會重新返回到那一排的第0個位置。
 						where[0]=0;
 					else
-						where[0]=where[0]+1;
+						where[0]=where[0]+1;//位子加1，造成往前移動
 				end
 			else if(pos[1]==1)
 				begin
-					if(where[0]==0)
+					if(where[0]==0)//如果游標到達8*8的邊緣，并且持續往后移動時就會返回到那一排的第7個位置。
 						where[0]=7;
 					else
-						where[0]=where[0]-1;
+						where[0]=where[0]-1;//位子減1，造成往后移動
 				end
 			else if(pos[2]==1)
 				begin
+					//where[1] == x 軸
 					if(where[1]<=0)
 						where[1]=7;
 					else
@@ -157,7 +159,7 @@ module try_games(
 						where[1]=where[1]+1;
 				end
 			
-			show_now[last_x][last_y]<=1; //將之前的不顯示
+			show_now[last_x][last_y]<=1; //將之前的不顯示  
 			show_now[where[1]][where[0]]<=0; //顯示現在位置
 			last_x=where[1];
 			last_y=where[0];
@@ -173,7 +175,7 @@ module try_games(
 				show_p2<='{8'b11111111,8'b11111111,8'b11111111,8'b11111111,8'b11111111,8'b11111111,8'b11111111,8'b11111111};
 		end
 		else if(ensure) begin
-			if(who==0) //player 1
+			if(who==0) //player 1 
 			begin
 				//若之前沒人佔領過此位置，才能下棋   
 				if(show_p1[last_x][last_y]&&show_p2[last_x][last_y])
