@@ -1,12 +1,12 @@
 module try_games(
 	input CLK,
 	input [3:0] pos, //button，控制上下左右
-	input ensure,reset,
+	input ensure,reset, //ensure為下棋鍵
 	output reg [7:0]red,blue,green, //8*8圖形輸出
-	output reg [3:0]COMM_88,
-	output reg [1:0]COMM_seg,
-	output reg [6:0]seg,
-	output reg [2:0]life_p1,life_p2,//p1 和 p2 的生命值
+	output reg [3:0]COMM_88, //8*8的enable,S0,S1,S2
+	output reg [1:0]COMM_seg, //7段的com 3 和com 4
+	output reg [6:0]seg, //7段
+	output reg [2:0]life_p1,life_p2, //p1 和 p2 的生命值
 	output reg [1:0]wingames_p1,wingames_p2,
 	output reg [1:0]beep, //蜂鳴器
 	//output reg [0:1]show_who //測試用變數
@@ -35,7 +35,7 @@ module try_games(
 	bit who; //目前是player 1 or 2
 	bit [2:0] show_88; //切換顯示8*8
 	bit win_p1,win_p2; //誰贏了
-	bit not_win; //目前沒人贏
+	bit not_win; //目前戰況還沒有人贏
 	bit timeout; //沒用
 	bit skip; //timer timeout用
 	bit tmp_win_p1,tmp_win_p2; //配合always和win_p1,win_p2用
@@ -44,12 +44,13 @@ module try_games(
 	bit tmp_timer_reset_ten,tmp_timer_reset_one;
 	reg flag; //讓蜂鳴器叫
 	bit tmp_flag; //配合always和flag用
+	
    //判斷輸贏用變數------------------
 	logic [4:0] col[7:0];
 	logic [4:0] row[7:0];
-	logic [4:0] l_slope[14:0];
-	logic [4:0] r_slope[14:0];
-	logic [4:0]continus=0;
+	logic [4:0] l_slope[14:0]; //左斜
+	logic [4:0] r_slope[14:0]; //右斜
+	logic [4:0]continus=0; //算有幾個連續的點
 	int i,j;
 	logic [3:0] floor;
 	logic [3:0]  ceiling;
@@ -65,7 +66,7 @@ module try_games(
 			who=0;
 			win_p1=0;
 			win_p2=0;
-			not_win=1;
+			not_win=1; //1==沒人贏
 			timeout=0;
 			flag=1'b0; tmp_flag=2'b00;
 			skip=0;
@@ -82,31 +83,31 @@ module try_games(
 		end
 
 	//若timer time-out，剩餘可犯規次數扣一
-	bit tmp_skip_life;
+	bit tmp_skip_life; //0 or 1
 	always @(posedge CLK_play)
 		if(reset==1)
 		begin
-			life_p1=3'b111;//reset,重新變回三條命
-			life_p2=3'b111;//reset,重新變回三條命
+			life_p1=3'b111; //reset,重新變回三條命
+			life_p2=3'b111; //reset,重新變回三條命
 		end
-		else if(tmp_skip_life!=skip)
+	else if(tmp_skip_life!=skip) //0！=0
 			begin
-				tmp_skip_life=skip;
-				if(~who) //player 1 //？？？？？？？？？？？？？？？？？
+				tmp_skip_life=skip; //停止循環
+				if(~who) //player 1 
 				begin
-					case(life_p1)//p1 的生命（total 生命 == 3）
-						3'b111: life_p1=3'b110;//犯規一次（3->2）
-						3'b110: life_p1=3'b100;//犯規第二次（2->1)
-						3'b100: life_p1=3'b000;//犯規第三次（1->0)
+					case(life_p1) //p1 的生命（total 生命 == 3）
+						3'b111: life_p1=3'b110; //犯規一次（3->2）
+						3'b110: life_p1=3'b100; //犯規第二次（2->1)
+						3'b100: life_p1=3'b000; //犯規第三次（1->0)
 						//3'b000: tmp_win_p2=1;
 					endcase
 				end
 				else
 					begin
-					case(life_p2)//p2 的生命（total 生命 == 3）
-						3'b111: life_p2=3'b110;//犯規一次（3->2）
-						3'b110: life_p2=3'b100;//犯規第二次（2->1)
-						3'b100: life_p2=3'b000;//犯規第三次（1->0)
+					case(life_p2) //p2 的生命（total 生命 == 3）
+						3'b111: life_p2=3'b110; //犯規一次（3->2）
+						3'b110: life_p2=3'b100; //犯規第二次（2->1)
+						3'b100: life_p2=3'b000; //犯規第三次（1->0)
 						//3'b000: tmp_win_p1=1;
 					endcase
 					end
@@ -182,7 +183,7 @@ module try_games(
 				begin
 					show_p1[last_x][last_y]<=0;//下棋
 				end
-				who_change=~who_change;//換人 //靠這裡應該在end裡面 //明天提醒我QAQ
+				who_change=~who_change;//換人  //原本是0（p1）變成了 1（p2） //靠這裡應該在end裡面 //明天提醒我QAQ
 			end
 			else
 			begin
@@ -190,7 +191,7 @@ module try_games(
 				begin
 					show_p2[last_x][last_y]<=0;//下棋
 				end
-				who_change=~who_change;//換人
+				who_change=~who_change;//換人  //原本是1（p2）變成了 0（p1）
 			end
 		end
 	end
@@ -205,7 +206,7 @@ module try_games(
 			who=0;
 			tmp_who_change=who_change;
 			tmp_skip=skip;
-			timer_reset=~timer_reset; //reset timer
+			timer_reset=~timer_reset; //reset timer   //0 變 1
 		end
 		else if(tmp_who_change!=who_change||tmp_skip!=skip)
 		begin
@@ -241,7 +242,7 @@ module try_games(
 		end
 		else
 		begin
-			if(who)//判斷player1是否贏
+			if(who)//判斷player1是否贏   //熊的flag（~）
 				begin
 					l_slope='{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 					r_slope='{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -466,6 +467,7 @@ module try_games(
 					end
 				end //end who_else
 		end
+	
 	//=============================================================================================================
 	//顯示贏
 	parameter logic[7:0] win [7:0]='{ //player 1
@@ -494,12 +496,12 @@ module try_games(
 	always @(posedge CLK_show)
 		begin
 			//計算顯示哪條
-			if(show_88>=7)
+			if(show_88>=7) //show_88為s0,s1,s2，不包括enable //000
 				show_88=0;
 			else
-				show_88=show_88+1;
+				show_88=show_88+1; //001
 			//8*8 EN+S0~2
-			COMM_88={1'b1,show_88};
+			COMM_88={1'b1,show_88}; //1'b1 == enable //1001
 			if(not_win)
 				begin
 					red=show_p1[show_88];
@@ -522,6 +524,7 @@ module try_games(
 						end
 				end
 		end
+	
 //timer========================================
 		//十位數，個位數
 	bit[3:0] ten,one;
@@ -552,8 +555,8 @@ module try_games(
 			begin
 				tmp_timer_reset_ten<=timer_reset;
 				//犯規次數歸零 -> 時間減少
-				if(life_p1==0&&who==0) begin ten=4'b0101; end 
-				else if(life_p2==0&&who==1) begin ten=4'b0101; end
+				if(life_p1==0&&who==0) begin ten=4'b0101; end //5
+				else if(life_p2==0&&who==1) begin ten=4'b0101; end //5
 				//正常歸零
 				else begin ten=4'b1001; end
 				
@@ -562,8 +565,8 @@ module try_games(
 			begin
 				if(ten<1)
 					begin
-						flag=~flag;
-						skip=~skip;
+						flag=~flag; //1
+						skip=~skip; //1
 						//犯規次數歸零 -> 時間減少
 						if(life_p1==0&&who==0) begin ten=4'b0101; end
 						else if(life_p2==0&&who==1) begin ten=4'b0101; end
@@ -612,7 +615,7 @@ module try_games(
 						4'b0101:seg=7'b0100100;
 						4'b0110:seg=7'b0100000;
 						4'b0111:seg=7'b0001111;
-						4'b1000:seg=7'b00000000;
+						4'b1000:seg=7'b00000000; //bear flag
 						4'b1001:seg=7'b0001100;
 					endcase
 				end
@@ -628,7 +631,7 @@ module try_games(
 						4'b0101:seg=7'b0100100;
 						4'b0110:seg=7'b0100000;
 						4'b0111:seg=7'b0001111;
-						4'b1000:seg=7'b00000000;
+						4'b1000:seg=7'b00000000; //bear flag
 						4'b1001:seg=7'b0001100;
 					endcase
 				end
