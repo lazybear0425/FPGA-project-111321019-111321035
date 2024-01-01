@@ -38,6 +38,7 @@
 ### LCD輸出
 - pl為player 1
 - p2為player 2
+- Cursor為游標
 - R為Red
 - G為Green
 - B為Blue
