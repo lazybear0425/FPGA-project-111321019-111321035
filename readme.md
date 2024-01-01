@@ -38,7 +38,7 @@
 ### LCD輸出
 - pl為player 1
 - p2為player 2
-- r為Red
-- g為Green
-- b為Blue
+- R為Red
+- G為Green
+- B為Blue
 ![LCD](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/b1bcb93c-795c-44bb-bd87-1cf3c7f47b7b)
