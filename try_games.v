@@ -325,7 +325,7 @@ module try_games(
 								end
 							end
 						end
-						if(continus>=5) begin win_p2=1; not_win=0; end
+						if(continus>=5) begin win_p1=1; not_win=0; end //flag-改過
 					end
 					for(int i=0;i<=14&&not_win;i=i+1)
 					begin
