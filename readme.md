@@ -43,3 +43,5 @@
 - G為Green
 - B為Blue
 ![LCD](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/b1bcb93c-795c-44bb-bd87-1cf3c7f47b7b)
+ - 根據表格來輸入我們想要的字
+![image](https://github.com/lazybear0425/FPGA-project-111321019-111321035/assets/155285032/b8b81a51-b3b7-4dbf-ba32-f9cb0d6bd53d)
