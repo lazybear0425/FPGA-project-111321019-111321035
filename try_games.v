@@ -531,7 +531,7 @@ module try_games(
 	initial
 		begin
 			ten=4'b1001;
-			one=4'b1000;
+			one=4'b1000; //flag
 			COMM_seg=2'b01;
 		end
 	//beep
@@ -565,7 +565,7 @@ module try_games(
 			begin
 				if(ten<1)
 					begin
-						flag=~flag; //1
+						flag=~flag; //1 //beep 響
 						skip=~skip; //1
 						//犯規次數歸零 -> 時間減少
 						if(life_p1==0&&who==0) begin ten=4'b0101; end
